@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.88.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Qt属性系统 &middot; Beside C&#43;&#43;</title>
+  <meta name="description" content="" />
+
+  
+  <link type="text/css" rel="stylesheet" href="http://fanck13.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://fanck13.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://fanck13.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://fanck13.github.io/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  
+</head>
+
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://fanck13.github.io/"><h1>Beside C&#43;&#43;</h1></a>
+      <p class="lead">
+      An elegant open source and mobile first theme for <a href="http://hugo.spf13.com">hugo</a> made by <a href="http://twitter.com/mdo">@mdo</a>. Originally made for Jekyll.
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="http://fanck13.github.io/">Home</a> </li>
+        
+      </ul>
+    </nav>
+
+    <p>&copy; 2021. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>Qt属性系统</h1>
+  <time datetime=2020-08-29T17:43:10&#43;0800 class="post-date">Sat, Aug 29, 2020</time>
+  <h1 id="qt-属性系统">Qt 属性系统</h1>
+<p><a href="https://doc.qt.io/qt-6/properties.html">The Property System | Qt Core 6.2.0</a></p>
+<p>Qt 提供了严谨的属性系统，这与一些编译器所提供的属性系统类似。但是，作为一个编译器无关、平台无关的第三方库，Qt不会依赖非标准的编译器特性，如<code>__property</code> 或者<code> [property]</code>。Qt所提供的解决方案能够工作在任何Qt所支持的平台编译器。其基于Qt的元对象系统，该系统也提供了信号和槽用于对象间的通讯。</p>
+<h3 id="属性声明的要求">属性声明的要求</h3>
+<p>为了声明一个属性，需要在继承<code>QObject</code>的类中使用宏<code>Q_PROPERTY()</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">Q_PROPERTY(type name
+           (READ getFunction [WRITE setFunction] <span style="color:#f92672">|</span>
+            MEMBER memberName [(READ getFunction <span style="color:#f92672">|</span> WRITE setFunction)])
+           [RESET resetFunction]
+           [NOTIFY notifySignal]
+           [REVISION <span style="color:#66d9ef">int</span> <span style="color:#f92672">|</span> REVISION(<span style="color:#66d9ef">int</span>[, <span style="color:#66d9ef">int</span>])]
+           [DESIGNABLE <span style="color:#66d9ef">bool</span>]
+           [SCRIPTABLE <span style="color:#66d9ef">bool</span>]
+           [STORED <span style="color:#66d9ef">bool</span>]
+           [USER <span style="color:#66d9ef">bool</span>]
+           [BINDABLE bindableProperty]
+           [CONSTANT]
+           [FINAL]
+           [REQUIRED])
+</code></pre></div><p>下面是一些属性声明的典型例子，这些属性来自<code>QWidget</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">Q_PROPERTY(<span style="color:#66d9ef">bool</span> focus READ hasFocus)
+Q_PROPERTY(<span style="color:#66d9ef">bool</span> enabled READ isEnabled WRITE setEnabled)
+Q_PROPERTY(QCursor cursor READ cursor WRITE setCursor RESET unsetCursor)
+</code></pre></div><p>下面的例子用来演示如何使用<code>MEMBER</code>关键字将变量导出成Qt 属性。注意，<code>NOTIFY</code>信号必须被指定允许QML 属性绑定。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">Q_PROPERTY(QColor color MEMBER m_color NOTIFY colorChanged)
+Q_PROPERTY(qreal spacing MEMBER m_spacing NOTIFY spacingChanged)
+Q_PROPERTY(QString text MEMBER m_text NOTIFY textChanged)
+signals:
+    <span style="color:#66d9ef">void</span> colorChanged();
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">spacingChanged</span>();
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">textChanged</span>(<span style="color:#66d9ef">const</span> QString <span style="color:#f92672">&amp;</span>newText);
+
+<span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+    QColor  m_color;
+    qreal   m_spacing;
+    QString m_text;
+</code></pre></div><p>属性的行为跟类的数据成员很像，但是其有一些额外的属性可以通过元对象系统访问。</p>
+<ul>
+<li>
+<p>在没有<code>MEMBER</code>来指定变量时，<code>READ</code>函数不能被省略。只有这样才能读取属性值。理想情况下，一个常量函数被用于这个目的，并且这个函数的返回类型为属性的类型或者为这个类型的常量引用。例如，<code>QWidget::focus</code>是一个只读属性，其<code>READ</code> 函数为 <code>QWidget::hasFocus()</code>。</p>
+</li>
+<li>
+<p><code>WRITE</code>函数是可选的。其作用是设置属性的值。它的返回类型必须为<code>void</code>，并且只能有一个参数，参数类型或者是属性的类型，或者是对该类型的指针或引用。例如，<code>QWidget::enabled</code>有<code>WRITE</code> 函数<code>QWidget::setEnabled()</code>. 只读属性不需要<code>WRITE</code>函数，例如<code>QWidget::focus</code> 没有 <code>WRITE</code> 函数。</p>
+</li>
+<li>
+<p>如果没有<code>READ</code>函数，那么<code>MEMBER</code>变量是不能省略的。这一点可以使得，在没有<code>READ</code>和<code>WRITE</code>函数的情况下，给定的成员变量可读和可写。但是在这种情况下仍然可以有<code>READ</code>和<code>WRITE</code>函数，这样可以弥补成员变量没有设置或者获取变量值的问题。</p>
+</li>
+<li>
+<p><code>RESET</code>函数是可选的。该函数是为了将属性的值设置为上下文指定的默认值。例如，<code>QWidget::cursor</code>有<code>READ</code> 和<code>WRITE</code> 函数， <code>QWidget::cursor()</code> 和 <code>QWidget::setCursor()</code>, 并且，它也有<code>RESET</code> 函数<code>QWidget::unsetCursor()</code>，如果不调用 <code>QWidget::setCursor()</code>函数，这意味着光标能够被重置为上下文指定的光标。<code>RESET</code>函数必须返回<code>void</code>并且没有参数。</p>
+</li>
+<li>
+<p><code>NOTIFY</code>信号是可选的。如果该信号被定义了，它应该指定一个类中已经存在的信号，该信号会在属性值被改变的时候发出。对于<code>MEMBER</code> 变量的<code>NOTIFY</code>信号有至多一个参数，其类型跟属性的类型相同。这个参数的值为属性被更改后的新值。<code>NOTIFY</code>信号应当只有在值<strong>真正</strong>被改变的时候才被发出，从而避免被无意义的重复求值，例如在QML中。当被没有显示赋值函数的<code>MEMBER</code>属性需要的时候Qt会自动的发出这个信号 。</p>
+</li>
+<li>
+<p><code>REVISION </code>数字或者宏<code>REVISION() </code>是可选的。默认值为0。其作用是为了限制其通知信号只在特定的版本可以被使用。</p>
+</li>
+<li>
+<p><code>DESIGNABLE</code>是为了表明该属性是否应该在GUI的设计工具的属性编辑器中显示出来（例如，Qt Designer）。大多数的属性是<code>DESIGNABLE </code>的（其默认值为<code>true</code>）。有效的值是<code>true</code>或者<code>false</code>。</p>
+</li>
+<li>
+<p><code>SCRIPTABLE</code>表明这个属性是否可以被脚本引擎获取（默认值为<code>true</code>）。有效值是<code>true</code>或者<code>false</code>。</p>
+</li>
+<li>
+<p><code>STORED</code>表明这个属性是否应该被认为是独立的，或者是依赖其他的值。它也表明这个属性值</p>
+</li>
+<li></li>
+<li></li>
+<li>
+<p>The STORED attribute indicates whether the property should be thought of as existing on its own or as depending on other values. It also indicates whether the property value must be saved when storing the object&rsquo;s state. Most properties are STORED (default true), but e.g., QWidget::minimumWidth() has STORED false, because its value is just taken from the width component of property QWidget::minimumSize(), which is a QSize.
+The USER attribute indicates whether the property is designated as the user-facing or user-editable property for the class. Normally, there is only one USER property per class (default false). e.g., QAbstractButton::checked is the user editable property for (checkable) buttons. Note that QItemDelegate gets and sets a widget&rsquo;s USER property.
+The BINDABLE bindableProperty attribute indicates that the property supports bindings, and that it is possible to set and inspect bindings to this property via the meta object system (QMetaProperty). bindableProperty names a class member of type QBindable<!-- raw HTML omitted -->, where T is the property type. This attribute was introduced in Qt 6.0.
+The presence of the CONSTANT attribute indicates that the property value is constant. For a given object instance, the READ method of a constant property must return the same value every time it is called. This constant value may be different for different instances of the object. A constant property cannot have a WRITE method or a NOTIFY signal.
+The presence of the FINAL attribute indicates that the property will not be overridden by a derived class. This can be used for performance optimizations in some cases, but is not enforced by moc. Care must be taken never to override a FINAL property.
+The presence of the REQUIRED attribute indicates that the property should be set by a user of the class. This is not enforced by moc, and is mostly useful for classes exposed to QML. In QML, classes with REQUIRED properties cannot be instantiated unless all REQUIRED properties have been set.
+The READ, WRITE, and RESET functions can be inherited. They can also be virtual. When they are inherited in classes where multiple inheritance is used, they must come from the first inherited class.</p>
+</li>
+</ul>
+<p>The property type can be any type supported by QVariant, or it can be a user-defined type. In this example, class QDate is considered to be a user-defined type.</p>
+<p>Q_PROPERTY(QDate date READ getDate WRITE setDate)
+Because QDate is user-defined, you must include the <!-- raw HTML omitted --> header file with the property declaration.</p>
+<p>For historical reasons, QMap and QList as property types are synonym of QVariantMap and QVariantList.</p>
+<p>Reading and Writing Properties with the Meta-Object System
+A property can be read and written using the generic functions QObject::property() and QObject::setProperty(), without knowing anything about the owning class except the property&rsquo;s name. In the code snippet below, the call to QAbstractButton::setDown() and the call to QObject::setProperty() both set property &ldquo;down&rdquo;.</p>
+<p>QPushButton *button = new QPushButton;
+QObject *object = button;</p>
+<p>button-&gt;setDown(true);
+object-&gt;setProperty(&ldquo;down&rdquo;, true);
+Accessing a property through its WRITE accessor is the better of the two, because it is faster and gives better diagnostics at compile time, but setting the property this way requires that you know about the class at compile time. Accessing properties by name lets you access classes you don&rsquo;t know about at compile time. You can discover a class&rsquo;s properties at run time by querying its QObject, QMetaObject, and QMetaProperties.</p>
+<p>QObject *object = &hellip;
+const QMetaObject *metaobject = object-&gt;metaObject();
+int count = metaobject-&gt;propertyCount();
+for (int i=0; i&lt;count; ++i) {
+QMetaProperty metaproperty = metaobject-&gt;property(i);
+const char *name = metaproperty.name();
+QVariant value = object-&gt;property(name);
+&hellip;
+}
+In the above snippet, QMetaObject::property() is used to get metadata about each property defined in some unknown class. The property name is fetched from the metadata and passed to QObject::property() to get the value of the property in the current object.</p>
+<p>A Simple Example
+Suppose we have a class MyClass, which is derived from QObject and which uses the Q_OBJECT macro in its private section. We want to declare a property in MyClass to keep track of a priority value. The name of the property will be priority, and its type will be an enumeration type named Priority, which is defined in MyClass.</p>
+<p>We declare the property with the Q_PROPERTY() macro in the private section of the class. The required READ function is named priority, and we include a WRITE function named setPriority. The enumeration type must be registered with the Meta-Object System using the Q_ENUM() macro. Registering an enumeration type makes the enumerator names available for use in calls to QObject::setProperty(). We must also provide our own declarations for the READ and WRITE functions. The declaration of MyClass then might look like this:</p>
+<p>class MyClass : public QObject
+{
+Q_OBJECT
+Q_PROPERTY(Priority priority READ priority WRITE setPriority NOTIFY priorityChanged)</p>
+<p>public:
+MyClass(QObject *parent = nullptr);
+~MyClass();</p>
+<pre><code>enum Priority { High, Low, VeryHigh, VeryLow };
+Q_ENUM(Priority)
+
+void setPriority(Priority priority)
+{
+    m_priority = priority;
+    emit priorityChanged(priority);
+}
+Priority priority() const
+{ return m_priority; }
+</code></pre>
+<p>signals:
+void priorityChanged(Priority);</p>
+<p>private:
+Priority m_priority;
+};
+The READ function is const and returns the property type. The WRITE function returns void and has exactly one parameter of the property type. The meta-object compiler enforces these requirements.</p>
+<p>Given a pointer to an instance of MyClass or a pointer to a QObject that is an instance of MyClass, we have two ways to set its priority property:</p>
+<p>MyClass *myinstance = new MyClass;
+QObject *object = myinstance;</p>
+<p>myinstance-&gt;setPriority(MyClass::VeryHigh);
+object-&gt;setProperty(&ldquo;priority&rdquo;, &ldquo;VeryHigh&rdquo;);
+In the example, the enumeration type that is the property type is declared in MyClass and registered with the Meta-Object System using the Q_ENUM() macro. This makes the enumeration values available as strings for use as in the call to setProperty(). Had the enumeration type been declared in another class, its fully qualified name (i.e., OtherClass::Priority) would be required, and that other class would also have to inherit QObject and register the enumeration type there using the Q_ENUM() macro.</p>
+<p>A similar macro, Q_FLAG(), is also available. Like Q_ENUM(), it registers an enumeration type, but it marks the type as being a set of flags, i.e. values that can be OR&rsquo;d together. An I/O class might have enumeration values Read and Write and then QObject::setProperty() could accept Read | Write. Q_FLAG() should be used to register this enumeration type.</p>
+<p>Dynamic Properties
+QObject::setProperty() can also be used to add new properties to an instance of a class at runtime. When it is called with a name and a value, if a property with the given name exists in the QObject, and if the given value is compatible with the property&rsquo;s type, the value is stored in the property, and true is returned. If the value is not compatible with the property&rsquo;s type, the property is not changed, and false is returned. But if the property with the given name doesn&rsquo;t exist in the QObject (i.e., if it wasn&rsquo;t declared with Q_PROPERTY()), a new property with the given name and value is automatically added to the QObject, but false is still returned. This means that a return of false can&rsquo;t be used to determine whether a particular property was actually set, unless you know in advance that the property already exists in the QObject.</p>
+<p>Note that dynamic properties are added on a per instance basis, i.e., they are added to QObject, not QMetaObject. A property can be removed from an instance by passing the property name and an invalid QVariant value to QObject::setProperty(). The default constructor for QVariant constructs an invalid QVariant.</p>
+<p>Dynamic properties can be queried with QObject::property(), just like properties declared at compile time with Q_PROPERTY().</p>
+<p>Properties and Custom Types
+Custom types used by properties need to be registered using the Q_DECLARE_METATYPE() macro so that their values can be stored in QVariant objects. This makes them suitable for use with both static properties declared using the Q_PROPERTY() macro in class definitions and dynamic properties created at run-time.</p>
+<p>Adding Additional Information to a Class
+Connected to the property system is an additional macro, Q_CLASSINFO(), that can be used to attach additional name&ndash;value pairs to a class&rsquo;s meta-object, for example:</p>
+<p>Q_CLASSINFO(&ldquo;Version&rdquo;, &ldquo;3.0.0&rdquo;)
+Like other meta-data, class information is accessible at run-time through the meta-object; see QMetaObject::classInfo() for details.</p>
+<p>See also Meta-Object System, Signals and Slots, Q_DECLARE_METATYPE(), QMetaType, and QVariant.</p>
+
+</div>
+
+
+    </main>
+
+    
+      
+    
+  </body>
+</html>

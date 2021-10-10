@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.88.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Qt 信号和槽 &middot; Beside C&#43;&#43;</title>
+  <meta name="description" content="" />
+
+  
+  <link type="text/css" rel="stylesheet" href="http://fanck13.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://fanck13.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://fanck13.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://fanck13.github.io/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  
+</head>
+
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://fanck13.github.io/"><h1>Beside C&#43;&#43;</h1></a>
+      <p class="lead">
+      An elegant open source and mobile first theme for <a href="http://hugo.spf13.com">hugo</a> made by <a href="http://twitter.com/mdo">@mdo</a>. Originally made for Jekyll.
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="http://fanck13.github.io/">Home</a> </li>
+        
+      </ul>
+    </nav>
+
+    <p>&copy; 2021. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>Qt 信号和槽</h1>
+  <time datetime=2020-08-29T17:43:10&#43;0800 class="post-date">Sat, Aug 29, 2020</time>
+  <h1 id="qt-信号和槽">Qt 信号和槽</h1>
+<p>信号和槽是Qt中对象进行通讯的机制。该机制是观察者模式的一种实现，类似于回调函数，当一个对象的状态发生改变时，会触发本对象或者其他对象的一些行为。</p>
+<p>与回调函数对比：</p>
+<h2 id="什么是信号和槽">什么是信号和槽？</h2>
+<p>有一个简短的答案和一个详细的答案。我们会叙述这个详细的答案，但是对于不想等太多时间的读者，请看一下简短的答案</p>
+<h3 id="简单答案它们是啥">简单答案：它们是啥</h3>
+<p>信号和槽是观察者模式的一种通用实现。信号是可观察的事件，或者至少是发生事件的通知。槽是一个潜在的观察者，典型的槽是一个被调用的函数。通过<code>connect</code>函数建立这种<strong>可观察对象-观察者</strong>的联系。当一些事件发生或者对象的状态改变，就会触发信号。释放信号的对象要调用所有注册到这个信号上的函数（槽）。</p>
+<p>信号和槽是多对多的关系。一个信号可以连接到任意数量的槽上。多个信号可以连接到同一个槽上。</p>
+<p>信号可以携带额外的信息，例如，当窗口关闭的时候会发出一个信号，这个信号会携带对窗口的引用信息。把信号和槽看到是函数原型是很有用的。一个信号可连接到任何可以兼容函数原型的槽上。</p>
+<p>对于信号和槽，有多种不同的实现，它们在架构的风格和接口及基础设计选择上是不同的。</p>
+<h3 id="详细答案它们是怎么来的">详细答案：它们是怎么来的</h3>
+<p>上面的答案，给出了一些关于信号和槽的说明，但是我想更想说明信号和槽是如何来的，并且如何使用它们。</p>
+<p>编程中一个基本的概念就是通讯，一个对象通知另一个对象去做某事，从简入繁，来讲一下</p>
+<h4 id="一个简单的引入例子重新载入网页的按钮">一个简单的引入例子：重新载入网页的按钮</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Button</span>
+{
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+	<span style="color:#66d9ef">void</span> clicked();
+	<span style="color:#75715e">// 按钮会被按下
+</span><span style="color:#75715e"></span>};
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Page</span>
+{
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+	<span style="color:#66d9ef">void</span> reload();
+	<span style="color:#75715e">// ...which I might want to do when a Button is clicked
+</span><span style="color:#75715e"></span>};
+</code></pre></div><p>换句话说，Page对象知道如何重新载入，Button对象有时会被点击。我们我们有一个获取当前页面的函数<code>currentPage()</code>，可能点击这个按钮就会要求当前页面重新载入</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#66d9ef">void</span> Button<span style="color:#f92672">::</span>clicked()
+{
+	currentPage()<span style="color:#f92672">-&gt;</span>reload();
+	<span style="color:#75715e">// Buttons know exactly what to do when clicked
+</span><span style="color:#75715e"></span>}
+</code></pre></div>
+</div>
+
+
+    </main>
+
+    
+      
+    
+  </body>
+</html>

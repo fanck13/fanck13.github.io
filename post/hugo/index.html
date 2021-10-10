@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>404 Page not found &middot; Beside C&#43;&#43;</title>
+  <title>Hugo &middot; Beside C&#43;&#43;</title>
   <meta name="description" content="" />
 
   
@@ -49,8 +49,33 @@
 </aside>
 
     <main class="content container">
-    <h1>404: Page not found</h1>
-<p class="lead">Sorry, we've misplaced that URL or it's pointing to something that doesn't exist. <a href="http://fanck13.github.io/">Head back home</a> to try finding it again.</p>
+    <div class="post">
+  <h1>Hugo</h1>
+  <time datetime=2020-08-09T17:42:34&#43;0800 class="post-date">Sun, Aug 9, 2020</time>
+  <ul>
+<li>
+<p>添加文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">hugo new <span style="color:#f92672">[</span>file name<span style="color:#f92672">]</span>
+</code></pre></div></li>
+<li>
+<p>添加 theme</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cd theme
+git submodule add https://github.com/pacollins/hugo-future-imperfect-slim.git
+</code></pre></div></li>
+<li>
+<p>启动服务
+<code>hugo server --theme=hyde --buildDrafts --watch</code>
+<code>--watch</code>:修改自动更新</p>
+</li>
+<li>
+<p>部署
+<code>hugo --theme=hyde --baseUrl=&quot;https://fanck13.github.io/&quot;</code></p>
+</li>
+</ul>
+
+</div>
+
+
     </main>
 
     
