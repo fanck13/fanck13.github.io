@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Hello, World | Beside C&#43;&#43;</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	<link rel="stylesheet" href="/css/bundle.css">
+	<link rel="icon" href="/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="/icons/32.png" sizes="32x32" type="image/png">
+		
+</head>
+<body class="body kind-page">
+	<header class="header">
+	<a class="logo" href="/">Beside C&#43;&#43;</a>
+	
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+		<div class="single block">
+			<article class="entry">
+				<h1 class="entry__title">Hello, World</h1>
+				<div class="entry__content"><h1 id="hello-world">Hello, World</h1>
+<p>对于程序员来说，Hello, World 一定是不陌生的了。每次学一种新的编程语言的时候，第一个代码示例都是hello world。</p>
+<h3 id="hello-world的由来">Hello World的由来</h3>
+<blockquote>
+<p>1972年，贝尔实验室成员布莱恩·柯林汉撰写的内部技术文件《A Tutorial Introduction to the Language B》首次提到了Hello World这字符串。当时，他使用B语言撰写了第一个使用参数的Hello World相关程序。</p>
+<p>1972年，布莱恩·柯林汉和丹尼斯·里奇基于B语言写成C语言后，在他们撰写的《C程序设计语言》使用更简单的方式展示Hello World。</p>
+<p>自此，Hello World成为了电脑程序员学习新的编程语言的传统。</p>
+</blockquote>
+<p>在github上，有一个repo就记录了各种语言的Hello world的写法，大家可以自己去看一下，很有意思[2]。</p>
+<h3 id="c的hello-world">C++的Hello World</h3>
+<p>C++的 hello world ：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
+  std<span style="color:#f92672">::</span>cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;Hello, World&#34;</span><span style="color:#f92672">&lt;&lt;</span>std<span style="color:#f92672">::</span>endl;
+  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><p>我们来分析一下这简短的5行代码包含了哪些内容</p>
+<ul>
+<li>
+<p><code>#include &lt;iostream&gt;</code></p>
+<ul>
+<li>程序的编写一直在强调模块化，这句话表明了C++引用其他模块的方式，就是使用include关键字，后边跟着你要引用的类或对象所在的文件。</li>
+<li><code>iostream</code>是输入输出流功能的函数或者类所在的文件名，文件名用<code>&lt;&gt;</code>包裹。</li>
+</ul>
+</li>
+<li>
+<p><code>int main(){</code></p>
+<ul>
+<li><code>int</code> 表明了函数的返回类型；不同python这种脚本语言，C++要求要有一个代码运行的入口点，C++标准将这个入口点函数称之为<code>main</code>。</li>
+</ul>
+</li>
+<li>
+<p><code>std::cout&lt;&lt;&quot;Hello, World&quot;&lt;&lt;std::endl;</code></p>
+<ul>
+<li>
+<p><code>std</code>是一个命名空间，C++使用命名空间来避免命名冲突；std是standard的缩写，每一个编译器都需要实现std命名空间内的内容。</p>
+</li>
+<li>
+<p><code>&quot;Hello, World&quot;</code>被<strong>引号</strong>包裹，表明C++的字符串使用<code>&quot;&quot;</code>来区分的。</p>
+</li>
+<li>
+<p><code>endl</code>这是C++所定义的换行符。其定义为</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CharT</span>, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Traits</span> <span style="color:#f92672">&gt;</span>
+std<span style="color:#f92672">::</span>basic_ostream<span style="color:#f92672">&lt;</span>CharT, Traits<span style="color:#f92672">&gt;&amp;</span> endl( std<span style="color:#f92672">::</span>basic_ostream<span style="color:#f92672">&lt;</span>CharT, Traits<span style="color:#f92672">&gt;&amp;</span> os );
+</code></pre></div></li>
+<li>
+<p><code>;</code>C++语句通过分号进行分割</p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>return 0;</code>该函数的返回值为<code>0</code>。</p>
+</li>
+</ul>
+<p>在稍后的章节里，我们会讨论跟上面有关的内容，包括：</p>
+<ul>
+<li>C++ include 导致的性能问题</li>
+<li>返回值作为一种错误检验机制，跟异常的对比</li>
+<li>输入输出流是怎么回事</li>
+<li>main函数是怎么被调用的</li>
+<li>std 标准模板库的介绍</li>
+</ul>
+<h2 id="参考">参考</h2>
+<ol>
+<li><a href="https://en.wikipedia.org/wiki/%22Hello,_World!%22_program0">&ldquo;Hello, World!&rdquo; program</a></li>
+<li><a href="https://github.com/Aniket965/Hello-world">Aniket965/Hello-world</a></li>
+<li><a href="https://en.cppreference.com/w/cpp/io/manip/endl">std::endl</a></li>
+</ol>
+</div>
+				
+			</article>
+		</div>
+	</main>
+	
+	
+
+
+
+	
+
+	</div>
+	<footer class="footer">
+	<div class="footer__copyright">© 2021 Beside C&#43;&#43;. <span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span></div>
+</footer>
+</body>
+</html>

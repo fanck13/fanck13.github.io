@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>From_source_code_to_executable | Beside C&#43;&#43;</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	<link rel="stylesheet" href="/css/bundle.css">
+	<link rel="icon" href="/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="/icons/32.png" sizes="32x32" type="image/png">
+		
+</head>
+<body class="body kind-page">
+	<header class="header">
+	<a class="logo" href="/">Beside C&#43;&#43;</a>
+	
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+		<div class="single block">
+			<article class="entry">
+				<h1 class="entry__title">From_source_code_to_executable</h1>
+				<div class="entry__content"><h1 id="从源代码到可执行文件">从源代码到可执行文件</h1>
+<p>从源代码到可执行文件要分为三个阶段，分别是预处理，编译和链接。我们还是以helloworld代码代码为示例，简单的学习一下这三个阶段。</p>
+<h2 id="预处理">预处理</h2>
+<p>我们将helloworld的代码保存到hello-world.cpp中，然后执行以下命令，就能知道hello-world.cpp文件的大小了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ wc -l hello-world.cpp
+  <span style="color:#ae81ff">6</span> hello-world.cpp
+</code></pre></div><p>然后，我们通过g++来获取预处理后的代码，在查看下预处理后的代码的行数.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ g++ -E hello-world.cpp -o hello-world.pre
+$ wc -l hello-world.pre
+  <span style="color:#ae81ff">40753</span> hello-world.pre
+</code></pre></div><p>我们可以看到，经由预处理，一个简单的源文件会膨胀成一个很大的文件。那么，预处理究竟处理了哪些内容呢：</p>
+<ul>
+<li>include 会<strong>递归</strong>的将所有的涉及到的头文件都复制到源文件中。在上面的例子中，先将iostream中的内容复制到hello-world.cpp中来；iostream又include了streambuf istream ostream等文件，所以这些文件也会被复制到hello-world.cpp中来，然后就这么一层层的做下去。这其实是使源文件膨胀的主要原因。</li>
+<li>#define，所有的宏定义也会这这一阶段展开，也会造成源文件的膨胀。</li>
+<li>undef, if, ifdef,ifndef,else, elif, endif 等会将不满足的代码删除掉，这样会减少源文件的大小</li>
+<li>line error 这些可以给开发者一些编译器的消息</li>
+</ul>
+<p>其实上面描述的也就是include一直被大家所诟病的地方，编译是以源文件为单元进行的，也就是一个cpp文件就是一个编译单元，而它们之间对于引用的头文件都是独立的。举个例子：</p>
+<p>有两个头文件a.cpp 和 b.cpp，它们都include了iostream，那么这两个文件都会膨胀到这么大，这其实是一种浪费。C++20 通过引入 import 来解决这个问题。</p>
+<p><strong>Note:</strong> 实际上，预处理只是生成<code>hello-world.pre</code>其中一个的一个阶段。整个的阶段是翻译阶段，而预处理只在整个翻译阶段九个phase的第4个phase。</p>
+<h2 id="编译">编译</h2>
+<h2 id="链接">链接</h2>
+<h2 id="参考">参考</h2>
+<ol>
+<li><a href="https://zh.cppreference.com/w/cpp/language/translation_phases">Translation Phases</a></li>
+<li><a href="https://en.cppreference.com/w/cpp/preprocessor">Preprocessor</a></li>
+</ol>
+</div>
+				
+			</article>
+		</div>
+	</main>
+	
+	
+
+
+
+	
+
+	</div>
+	<footer class="footer">
+	<div class="footer__copyright">© 2021 Beside C&#43;&#43;. <span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span></div>
+</footer>
+</body>
+</html>

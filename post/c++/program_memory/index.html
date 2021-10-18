@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
-	<title>Qt 元对象系统 | Beside C&#43;&#43;</title>
+	<title>C&#43;&#43; 内存类型 | Beside C&#43;&#43;</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 	<link rel="stylesheet" href="/css/bundle.css">
@@ -24,8 +24,21 @@
 		
 		<div class="single block">
 			<article class="entry">
-				<h1 class="entry__title">Qt 元对象系统</h1>
-				<div class="entry__content"></div>
+				<h1 class="entry__title">C&#43;&#43; 内存类型</h1>
+				<div class="entry__content"><h1 id="c内存类型">C++内存类型</h1>
+<h3 id="1rodata段常量区-">(1).rodata段（常量区 ）</h3>
+<p>存放只读数据，</p>
+<h3 id="2-text段">(2) .text段</h3>
+<p>存放已经编译的机器代码</p>
+<p><strong>程序加载运行时，.rodata段和.text段通常合并到一个Segment（Text Segment）中，操作系统将这个Segment的页面只读保护起来，防止意外的改写。</strong></p>
+<h3 id="3-data段全局区">(3) .data段（全局区）</h3>
+<p>存放已初始化的全局变量</p>
+<h3 id="4-bss段">(4) .bss段</h3>
+<p>存放未初始化的全局变量</p>
+<p><strong>.data和.bss在加载时合并到一个Segment（Data Segment）中，这个Segment是可读可写的。</strong></p>
+<h3 id="5-栈">(5) 栈</h3>
+<h3 id="6-堆">(6) 堆</h3>
+</div>
 				
 			</article>
 		</div>

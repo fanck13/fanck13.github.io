@@ -1,90 +1,167 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<html class="no-js" lang="en-us">
 <head>
-  <link href="https://gmpg.org/xfn/11" rel="profile">
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.88.1" />
-
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Posts &middot; Beside C&#43;&#43;</title>
-  <meta name="description" content="" />
-
-  
-  <link type="text/css" rel="stylesheet" href="https://fanck13.github.io/css/print.css" media="print">
-  <link type="text/css" rel="stylesheet" href="https://fanck13.github.io/css/poole.css">
-  <link type="text/css" rel="stylesheet" href="https://fanck13.github.io/css/syntax.css">
-  <link type="text/css" rel="stylesheet" href="https://fanck13.github.io/css/hyde.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
-
-
-  
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
-  <link rel="shortcut icon" href="/favicon.png">
-
-  
-  <link href="https://fanck13.github.io/post/index.xml" rel="alternate" type="application/rss+xml" title="Beside C++" />
-  
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Posts | Beside C&#43;&#43;</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	<link rel="stylesheet" href="/css/bundle.css">
+	<link rel="icon" href="/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="alternate" type="application/rss+xml" href="/post/index.xml" title="Beside C++">
+		
 </head>
+<body class="body kind-section">
+	<header class="header">
+	<a class="logo" href="/">Beside C&#43;&#43;</a>
+	
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+		<div class="page block">
+			<h1 class="page__title">Posts</h1>
+			
+		</div>
+		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="/post/c&#43;&#43;/program_memory/">C&#43;&#43; 内存类型</a></h1>
+	<div class="entry__content">C++内存类型 (1).rodata段（常量区 ） 存放只读数据，
+(2) .text段 存放已经编译的机器代码
+程序加载运行时，.rodata段和.text段通常合并到一个Segment（Text Segment）中，操作系统将这个Segment的页面只读保护起来，防止意外的改写。
+(3) .data段（全局区） 存放已初始化的全局变量
+(4) .bss段 存放未初始化的全局变量
+.data和.bss在加载时合并到一个Segment（Data Segment）中，这个Segment是可读可写的。
+(5) 栈 (6) 堆 </div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="/post/c&#43;&#43;/relations_with_other_languages/">Relations_with_other_languages</a></h1>
+	<div class="entry__content">C++ 跟其他语言的关系  C  C调用C++ C++ 调用C   java  java调用C++ C++ 调用java   C#  C# 调用C++ C++ 调用C#   nodejs  nodejs调用C++ C++ 调用nodejs    </div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="/post/c&#43;&#43;/from_source_code_to_executable/">From_source_code_to_executable</a></h1>
+	<div class="entry__content">从源代码到可执行文件 从源代码到可执行文件要分为三个阶段，分别是预处理，编译和链接。我们还是以helloworld代码代码为示例，简单的学习一下这三个阶段。
+预处理 我们将helloworld的代码保存到hello-world.cpp中，然后执行以下命令，就能知道hello-world.cpp文件的大小了。
+$ wc -l hello-world.cpp 6 hello-world.cpp 然后，我们通过g++来获取预处理后的代码，在查看下预处理后的代码的行数.
+$ g++ -E hello-world.cpp -o hello-world.pre $ wc -l hello-world.pre 40753 hello-world.pre 我们可以看到，经由预处理，一个简单的源文件会膨胀成一个很大的文件。那么，预处理究竟处理了哪些内容呢：
+ include 会递归的将所有的涉及到的头文件都复制到源文件中。在上面的例子中，先将iostream中的内容复制到hello-world.cpp中来；iostream又include了streambuf istream ostream等文件，所以这些文件也会被复制到hello-world.cpp中来，然后就这么一层层的做下去。这其实是使源文件膨胀的主要原因。 #define，所有的宏定义也会这这一阶段展开，也会造成源文件的膨胀。 undef, if, ifdef,ifndef,else, elif, endif 等会将不满足的代码删除掉，这样会减少源文件的大小 line error 这些可以给开发者一些编译器的消息  其实上面描述的也就是include一直被大家所诟病的地方，编译是以源文件为单元进行的，也就是一个cpp文件就是一个编译单元，而它们之间对于引用的头文件都是独立的。举个例子：
+有两个头文件a.cpp 和 b.cpp，它们都include了iostream，那么这两个文件都会膨胀到这么大，这其实是一种浪费。C++20 通过引入 import 来解决这个问题。
+Note: 实际上，预处理只是生成hello-world.pre其中一个的一个阶段。整个的阶段是翻译阶段，而预处理只在整个翻译阶段九个phase的第4个phase。
+编译 链接 参考  Translation Phases Preprocessor  </div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="/post/c&#43;&#43;/constexpr/">constexpr VS const</a></h1>
+	<div class="entry__content">constexpr VS const constexpr是C++11中新增的一个说明符，指明函数或者变量可以用在常量表达式中。有一点值得提一下，这个说明符的名字起得是不怎么样。其含义强调的是编译期求值，跟const的关系不大，但是很多人都会被迷惑。
+举个例子说明一下，** constexpr 并没有常量特性**
+#include &lt;iostream&gt; const char* a = &#34;abd&#34;; int main() { a[0] = &#39;c&#39;; return 0; } 编译代码，会得到如下错误：
+&lt;source&gt;: In function &#39;int main()&#39;: &lt;source&gt;:6:10: error: assignment of read-only location &#39;* a&#39; 6 | a[0] = &#39;c&#39;; | ~~~~~^~~~~ 将上面的代码做一下修改
+#include &lt;iostream&gt; constexpr char* a = &#34;abd&#34;; int main() { a[0] = &#39;c&#39;; return 0; } 就可以顺利的编译运行。
+在举例说明下 ** constexpr的编译期求值特性**
+#include &lt;iostream&gt; const int get(){return 4;} int main() { static_assert(4 == get()); return 0; } 编译代码，会得到如下错误</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="/post/c&#43;&#43;/helloworld/">Hello, World</a></h1>
+	<div class="entry__content">Hello, World 对于程序员来说，Hello, World 一定是不陌生的了。每次学一种新的编程语言的时候，第一个代码示例都是hello world。
+Hello World的由来  1972年，贝尔实验室成员布莱恩·柯林汉撰写的内部技术文件《A Tutorial Introduction to the Language B》首次提到了Hello World这字符串。当时，他使用B语言撰写了第一个使用参数的Hello World相关程序。
+1972年，布莱恩·柯林汉和丹尼斯·里奇基于B语言写成C语言后，在他们撰写的《C程序设计语言》使用更简单的方式展示Hello World。
+自此，Hello World成为了电脑程序员学习新的编程语言的传统。
+ 在github上，有一个repo就记录了各种语言的Hello world的写法，大家可以自己去看一下，很有意思[2]。
+C++的Hello World C++的 hello world ：
+#include &lt;iostream&gt;int main(){ std::cout&lt;&lt;&#34;Hello, World&#34;&lt;&lt;std::endl; return 0; } 我们来分析一下这简短的5行代码包含了哪些内容
+  #include &lt;iostream&gt;
+ 程序的编写一直在强调模块化，这句话表明了C++引用其他模块的方式，就是使用include关键字，后边跟着你要引用的类或对象所在的文件。 iostream是输入输出流功能的函数或者类所在的文件名，文件名用&lt;&gt;包裹。    int main(){
+ int 表明了函数的返回类型；不同python这种脚本语言，C++要求要有一个代码运行的入口点，C++标准将这个入口点函数称之为main。    std::cout&lt;&lt;&quot;Hello, World&quot;&lt;&lt;std::endl;
+  std是一个命名空间，C++使用命名空间来避免命名冲突；std是standard的缩写，每一个编译器都需要实现std命名空间内的内容。
+  &quot;Hello, World&quot;被引号包裹，表明C++的字符串使用&quot;&quot;来区分的。
+  endl这是C++所定义的换行符。其定义为</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="/post/qtinterview/%E4%BF%A1%E5%8F%B7%E6%A7%BD/">Qt 信号和槽</a></h1>
+	<div class="entry__content">Qt 信号和槽 信号和槽是Qt中对象进行通讯的机制。该机制是观察者模式的一种实现，类似于回调函数，当一个对象的状态发生改变时，会触发本对象或者其他对象的一些行为。
+与回调函数对比：
+什么是信号和槽？ 有一个简短的答案和一个详细的答案。我们会叙述这个详细的答案，但是对于不想等太多时间的读者，请看一下简短的答案
+简单答案：它们是啥 信号和槽是观察者模式的一种通用实现。信号是可观察的事件，或者至少是发生事件的通知。槽是一个潜在的观察者，典型的槽是一个被调用的函数。通过connect函数建立这种可观察对象-观察者的联系。当一些事件发生或者对象的状态改变，就会触发信号。释放信号的对象要调用所有注册到这个信号上的函数（槽）。
+信号和槽是多对多的关系。一个信号可以连接到任意数量的槽上。多个信号可以连接到同一个槽上。
+信号可以携带额外的信息，例如，当窗口关闭的时候会发出一个信号，这个信号会携带对窗口的引用信息。把信号和槽看到是函数原型是很有用的。一个信号可连接到任何可以兼容函数原型的槽上。
+对于信号和槽，有多种不同的实现，它们在架构的风格和接口及基础设计选择上是不同的。
+详细答案：它们是怎么来的 上面的答案，给出了一些关于信号和槽的说明，但是我想更想说明信号和槽是如何来的，并且如何使用它们。
+编程中一个基本的概念就是通讯，一个对象通知另一个对象去做某事，从简入繁，来讲一下
+一个简单的引入例子：重新载入网页的按钮 class Button { public: void clicked(); // 按钮会被按下 }; class Page { public: void reload(); // ...which I might want to do when a Button is clicked }; 换句话说，Page对象知道如何重新载入，Button对象有时会被点击。我们我们有一个获取当前页面的函数currentPage()，可能点击这个按钮就会要求当前页面重新载入
+void Button::clicked() { currentPage()-&gt;reload(); // Buttons know exactly what to do when clicked } </div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="/post/qtinterview/object_trees_and_ownership/">Qt 元对象系统</a></h1>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="/post/qtinterview/the_meta-object_system/">Qt 元对象系统</a></h1>
+	<div class="entry__content">Qt 元对象系统 [The Meta-Object System | Qt Core 5.15.6](https://doc.qt.io/qt-5/metaobjects.html#:~:text=The Meta-Object System Qt&rsquo;s meta-object system provides the,that can take advantage of the meta-object system.)
+Qt 元对象系统提供了3个功能：
+ 用于对象之间通讯的信号槽机制 运行时类型信息 动态属性系统  元对象系统基于以下元素构建：
+ QObject 作为所有利用元对象系统的类的基类； 位于 private中的宏 Q_OBJECT，是用来使元对象系统生效的，例如动态属性，信号和槽； 元对象编译器可以给所有继承自QObject的子类添加用于实现元对象系统的必要的代码。  moc 会读取C++ 源文件，如果其发现在一个或多个类的声明中包含有宏Q_OBJECT，会产生另外一个C++ 源文件，这个新产生的源文件包含这些类的元对象代码，这个新文件或者会被#include到类的元文件中，或者会被编译到或者链接到类的实现中。
+为了提供对象之间的通讯机制-信号和槽（引入这个系统的主要原因），元对象代码还提供了额外的特性：
+ QObject::metaObject()会返回类的相关联的元对象； QMetaObject::className()在运行时以字符串的形式返回类的名字，可以不需要C++ 编译器所支持的原生的运行时类型信息（RTTI）； QObject::inherits()函数返回一个对象是否是继承自特定的类的实例，两者都应在QObject的继承树中； QObject::tr()和QObject::trUtf8()会翻译字符串，用于国际化； QObject::setProperty() and QObject::property()会通过名字动态的获取和设置属性； QMetaObject::newInstance() 创建类的一个新实例。  通过qobject_cast()可以对于QObject及其子类进行动态的转换。qobject_cast()跟dynamic_cast()的作用类似，其优点是不需要运行时类型信息，并且可以跨动态库工作。它尝试将其参数转换到指定的类型，如果成功的话，返回一个指向正确对象的非0指针（运行时确定），失败的话返回nullptr。
+例如，假设MyWidget继承自QWidget，并且声明了Q_OBJECT宏。
+QObject *obj = new MyWidget; 变量obj，其类型为QObject*，实际上指向的是MyWidget对象，所以能够正确的转化：
+QWidget *widget = qobject_cast&lt;QWidget *&gt;(obj); 强烈建议在所有QObject的子类中添加Q_OBJECT宏，无论其是否真的使用信号，槽和属性。</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="/post/qtinterview/object_model/">Qt 对象模型</a></h1>
+	<div class="entry__content">Qt 对象模型 </div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="/post/qtinterview/the_property_system/">Qt属性系统</a></h1>
+	<div class="entry__content">Qt 属性系统 The Property System | Qt Core 6.2.0
+Qt 提供了严谨的属性系统，这与一些编译器所提供的属性系统类似。但是，作为一个编译器无关、平台无关的第三方库，Qt不会依赖非标准的编译器特性，如__property 或者 [property]。Qt所提供的解决方案能够工作在任何Qt所支持的平台编译器。其基于Qt的元对象系统，该系统也提供了信号和槽用于对象间的通讯。
+属性声明的要求 为了声明一个属性，需要在继承QObject的类中使用宏Q_PROPERTY()。
+Q_PROPERTY(type name (READ getFunction [WRITE setFunction] | MEMBER memberName [(READ getFunction | WRITE setFunction)]) [RESET resetFunction] [NOTIFY notifySignal] [REVISION int | REVISION(int[, int])] [DESIGNABLE bool] [SCRIPTABLE bool] [STORED bool] [USER bool] [BINDABLE bindableProperty] [CONSTANT] [FINAL] [REQUIRED]) 下面是一些属性声明的典型例子，这些属性来自QWidget。
+Q_PROPERTY(bool focus READ hasFocus) Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled) Q_PROPERTY(QCursor cursor READ cursor WRITE setCursor RESET unsetCursor) 下面的例子用来演示如何使用MEMBER关键字将变量导出成Qt 属性。注意，NOTIFY信号必须被指定允许QML 属性绑定。</div>
+</article>
+				</div>
+			
+		</div>
+	</main>
+	
+<div class="pagination block">
+				<span class="pagination__item pagination__item--active" data-total="2">1</span>
+				<a class="pagination__item pagination__item--desktop" href="/post/page/2/">2</a>
+</div>
 
-  <body class=" ">
-  <aside class="sidebar">
-  <div class="container sidebar-sticky">
-    <div class="sidebar-about">
-      <a href="https://fanck13.github.io/"><h1>Beside C&#43;&#43;</h1></a>
-      <p class="lead">
-      An elegant open source and mobile first theme for <a href="http://hugo.spf13.com">hugo</a> made by <a href="http://twitter.com/mdo">@mdo</a>. Originally made for Jekyll.
-      </p>
-    </div>
-
-    <nav>
-      <ul class="sidebar-nav">
-        <li><a href="https://fanck13.github.io/">Home</a> </li>
-        
-      </ul>
-    </nav>
-
-    <p>&copy; 2021. All rights reserved. </p>
-  </div>
-</aside>
-
-    <main class="content container">
-    <ul class="posts">
-<li>
-    <span><a href="https://fanck13.github.io/post/program_memory/">Program_memory</a> <time class="pull-right post-list" datetime="2020-09-01T00:24:37&#43;0800">Tue, Sep 1, 2020</time></span>
-  </li><li>
-    <span><a href="https://fanck13.github.io/post/relations_with_other_languages/">Relations_with_other_languages</a> <time class="pull-right post-list" datetime="2020-09-01T00:19:55&#43;0800">Tue, Sep 1, 2020</time></span>
-  </li><li>
-    <span><a href="https://fanck13.github.io/post/from_source_code_to_executable/">From_source_code_to_executable</a> <time class="pull-right post-list" datetime="2020-08-30T13:47:43&#43;0800">Sun, Aug 30, 2020</time></span>
-  </li><li>
-    <span><a href="https://fanck13.github.io/post/c&#43;&#43;/constexpr/">constexpr VS const</a> <time class="pull-right post-list" datetime="2020-08-29T17:43:10&#43;0800">Sat, Aug 29, 2020</time></span>
-  </li><li>
-    <span><a href="https://fanck13.github.io/post/helloworld/">Hello, World</a> <time class="pull-right post-list" datetime="2020-08-29T17:43:10&#43;0800">Sat, Aug 29, 2020</time></span>
-  </li><li>
-    <span><a href="https://fanck13.github.io/post/qtinterview/%E4%BF%A1%E5%8F%B7%E6%A7%BD/">Qt 信号和槽</a> <time class="pull-right post-list" datetime="2020-08-29T17:43:10&#43;0800">Sat, Aug 29, 2020</time></span>
-  </li><li>
-    <span><a href="https://fanck13.github.io/post/qtinterview/the_meta-object_system/">Qt 元对象系统</a> <time class="pull-right post-list" datetime="2020-08-29T17:43:10&#43;0800">Sat, Aug 29, 2020</time></span>
-  </li><li>
-    <span><a href="https://fanck13.github.io/post/qtinterview/object_trees_and_ownership/">Qt 对象树和所有权</a> <time class="pull-right post-list" datetime="2020-08-29T17:43:10&#43;0800">Sat, Aug 29, 2020</time></span>
-  </li><li>
-    <span><a href="https://fanck13.github.io/post/qtinterview/object_model/">Qt 对象模型</a> <time class="pull-right post-list" datetime="2020-08-29T17:43:10&#43;0800">Sat, Aug 29, 2020</time></span>
-  </li><li>
-    <span><a href="https://fanck13.github.io/post/qtinterview/the_property_system/">Qt属性系统</a> <time class="pull-right post-list" datetime="2020-08-29T17:43:10&#43;0800">Sat, Aug 29, 2020</time></span>
-  </li><li>
-    <span><a href="https://fanck13.github.io/post/hugo/">Hugo</a> <time class="pull-right post-list" datetime="2020-08-09T17:42:34&#43;0800">Sun, Aug 9, 2020</time></span>
-  </li><li>
-    <span><a href="https://fanck13.github.io/post/c&#43;&#43;/standard/c&#43;&#43;17/"></a> <time class="pull-right post-list" datetime="0001-01-01T00:00:00Z">Mon, Jan 1, 0001</time></span>
-  </li><li>
-    <span><a href="https://fanck13.github.io/post/c&#43;&#43;/standard/c&#43;&#43;20/"></a> <time class="pull-right post-list" datetime="0001-01-01T00:00:00Z">Mon, Jan 1, 0001</time></span>
-  </li><li>
-    <span><a href="https://fanck13.github.io/post/c&#43;&#43;/standard/c&#43;&#43;23/"></a> <time class="pull-right post-list" datetime="0001-01-01T00:00:00Z">Mon, Jan 1, 0001</time></span>
-  </li>
-</ul>
-    </main>
-
-    
-      
-    
-  </body>
+	</div>
+	<footer class="footer">
+	<div class="footer__copyright">© 2021 Beside C&#43;&#43;. <span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span></div>
+</footer>
+</body>
 </html>

@@ -8,29 +8,35 @@
     <language>en-us</language>
     <lastBuildDate>Tue, 01 Sep 2020 00:24:37 +0800</lastBuildDate><atom:link href="https://fanck13.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Program_memory</title>
-      <link>https://fanck13.github.io/post/program_memory/</link>
+      <title>C&#43;&#43; 内存类型</title>
+      <link>https://fanck13.github.io/post/c&#43;&#43;/program_memory/</link>
       <pubDate>Tue, 01 Sep 2020 00:24:37 +0800</pubDate>
       
-      <guid>https://fanck13.github.io/post/program_memory/</guid>
-      <description></description>
+      <guid>https://fanck13.github.io/post/c&#43;&#43;/program_memory/</guid>
+      <description>C++内存类型 (1).rodata段（常量区 ） 存放只读数据，
+(2) .text段 存放已经编译的机器代码
+程序加载运行时，.rodata段和.text段通常合并到一个Segment（Text Segment）中，操作系统将这个Segment的页面只读保护起来，防止意外的改写。
+(3) .data段（全局区） 存放已初始化的全局变量
+(4) .bss段 存放未初始化的全局变量
+.data和.bss在加载时合并到一个Segment（Data Segment）中，这个Segment是可读可写的。
+(5) 栈 (6) 堆 </description>
     </item>
     
     <item>
       <title>Relations_with_other_languages</title>
-      <link>https://fanck13.github.io/post/relations_with_other_languages/</link>
+      <link>https://fanck13.github.io/post/c&#43;&#43;/relations_with_other_languages/</link>
       <pubDate>Tue, 01 Sep 2020 00:19:55 +0800</pubDate>
       
-      <guid>https://fanck13.github.io/post/relations_with_other_languages/</guid>
-      <description>C++ 跟其他语言的关系  C java C# nodejs  </description>
+      <guid>https://fanck13.github.io/post/c&#43;&#43;/relations_with_other_languages/</guid>
+      <description>C++ 跟其他语言的关系  C  C调用C++ C++ 调用C   java  java调用C++ C++ 调用java   C#  C# 调用C++ C++ 调用C#   nodejs  nodejs调用C++ C++ 调用nodejs    </description>
     </item>
     
     <item>
       <title>From_source_code_to_executable</title>
-      <link>https://fanck13.github.io/post/from_source_code_to_executable/</link>
+      <link>https://fanck13.github.io/post/c&#43;&#43;/from_source_code_to_executable/</link>
       <pubDate>Sun, 30 Aug 2020 13:47:43 +0800</pubDate>
       
-      <guid>https://fanck13.github.io/post/from_source_code_to_executable/</guid>
+      <guid>https://fanck13.github.io/post/c&#43;&#43;/from_source_code_to_executable/</guid>
       <description>从源代码到可执行文件 从源代码到可执行文件要分为三个阶段，分别是预处理，编译和链接。我们还是以helloworld代码代码为示例，简单的学习一下这三个阶段。
 预处理 我们将helloworld的代码保存到hello-world.cpp中，然后执行以下命令，就能知道hello-world.cpp文件的大小了。
 $ wc -l hello-world.cpp 6 hello-world.cpp 然后，我们通过g++来获取预处理后的代码，在查看下预处理后的代码的行数.
@@ -58,10 +64,10 @@ Note: 实际上，预处理只是生成hello-world.pre其中一个的一个阶�
     
     <item>
       <title>Hello, World</title>
-      <link>https://fanck13.github.io/post/helloworld/</link>
+      <link>https://fanck13.github.io/post/c&#43;&#43;/helloworld/</link>
       <pubDate>Sat, 29 Aug 2020 17:43:10 +0800</pubDate>
       
-      <guid>https://fanck13.github.io/post/helloworld/</guid>
+      <guid>https://fanck13.github.io/post/c&#43;&#43;/helloworld/</guid>
       <description>Hello, World 对于程序员来说，Hello, World 一定是不陌生的了。每次学一种新的编程语言的时候，第一个代码示例都是hello world。
 Hello World的由来  1972年，贝尔实验室成员布莱恩·柯林汉撰写的内部技术文件《A Tutorial Introduction to the Language B》首次提到了Hello World这字符串。当时，他使用B语言撰写了第一个使用参数的Hello World相关程序。
 1972年，布莱恩·柯林汉和丹尼斯·里奇基于B语言写成C语言后，在他们撰写的《C程序设计语言》使用更简单的方式展示Hello World。
@@ -98,6 +104,15 @@ void Button::clicked() { currentPage()-&amp;gt;reload(); // Buttons know exactly
     
     <item>
       <title>Qt 元对象系统</title>
+      <link>https://fanck13.github.io/post/qtinterview/object_trees_and_ownership/</link>
+      <pubDate>Sat, 29 Aug 2020 17:43:10 +0800</pubDate>
+      
+      <guid>https://fanck13.github.io/post/qtinterview/object_trees_and_ownership/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Qt 元对象系统</title>
       <link>https://fanck13.github.io/post/qtinterview/the_meta-object_system/</link>
       <pubDate>Sat, 29 Aug 2020 17:43:10 +0800</pubDate>
       
@@ -111,24 +126,6 @@ Qt 元对象系统提供了3个功能：
 例如，假设MyWidget继承自QWidget，并且声明了Q_OBJECT宏。
 QObject *obj = new MyWidget; 变量obj，其类型为QObject*，实际上指向的是MyWidget对象，所以能够正确的转化：
 QWidget *widget = qobject_cast&amp;lt;QWidget *&amp;gt;(obj); 强烈建议在所有QObject的子类中添加Q_OBJECT宏，无论其是否真的使用信号，槽和属性。</description>
-    </item>
-    
-    <item>
-      <title>Qt 对象树和所有权</title>
-      <link>https://fanck13.github.io/post/qtinterview/object_trees_and_ownership/</link>
-      <pubDate>Sat, 29 Aug 2020 17:43:10 +0800</pubDate>
-      
-      <guid>https://fanck13.github.io/post/qtinterview/object_trees_and_ownership/</guid>
-      <description>概览 QObject及其子类的对象以对象树的形式组织。当创建一个QObject对象，并以其他对象作为父亲节点，父亲节点会将其加入到孩子列表中，当父亲节点被删除时，该对象也会被删除。这种方法非常适合Gui对象。例如一个QShortcut（键盘快捷键）对象是对象的窗口的孩子，当用户关闭窗口时，这个快捷键也被删掉了。
-QQuickItem，Qt Quick模块的基础的可视化模块，继承自QObject，有一个可视化父节点的概念，不同于QObject的父亲节点。一个对象的可视化父亲节点不必跟其父亲节点相同。请参考 Concepts - Visual Parent in Qt Quick 。
-QWidget是Qt Widgets模块的基础类，扩展了父亲-孩子关系。一个孩子节点变成了一个子控件，它在父控件的坐标系统内显示，并被其父控件的边界所截断。例如，当一个应用程序删除消息对话框的时候，消息对话框的按钮和标签也被删掉了，这正是我们需要的，因为按钮和标签是消息对话框的子控件。
-你也可以删除子对象，它们会被从父节点内移除。例如，当用户移除了一个工具栏，会导致删除它的一个QToolBar对象，在这种情况下，这个工具栏的父对象QMainWindow会检测到删除行为，并且会重新配置屏幕空间。
-当应用程序看起来很奇怪，或者行为很奇怪的时候，调试函数QObject::dumpObjectTree()和QObject::dumpObjectInfo()是很有用的。
-QObjects的构造和析构顺序 当QObjects的对象在堆上创建是（例如使用new创建）,这棵树可以以任意的顺序被创建，而这棵树被销毁的时候，顺序也是任意的。当这棵树中的任意一个对象被删除时，如果它有父节点，析构函数会自动的将它从它的父节点中移除。如果这个这个对象有孩子节点，析构函数会将每一个孩子都析构掉。无论是什么顺序，没有QObject对象会被析构两次。
-当QObjects对象被从栈上创建时，跟在堆上创建的行为相同。一般情况下，析构函数的顺序不会产生问题。考虑下面的代码片段：
-int main() { QWidget window; QPushButton quit(&amp;#34;Quit&amp;#34;, &amp;amp;window); ... } 父控件window，和子控件 quit都是继承自QObject。这段代码是正确的。quit的析构函数不被被调用两次，因为C++标准规定，局部对象的析构函数的调用顺序是构造函数调用顺序的反顺序。因此，子控件quit的析构函数首先会被调用，并且它会将自己从父控件window中移除，该行为发生在window的析构函数被调用之前。
-但是现在，考虑下面的代码片段会发生什么：
-int main() { QPushButton quit(&amp;#34;Quit&amp;#34;); QWidget window; quit.setParent(&amp;amp;window); ... } 在这种情况下，析构函数的调用顺序会导致问题。父控件的析构函数先被调用，因为它的构造函数是后被调用的。然后它会调用子控件quit的析构函数，这样的顺序是不正确的，因为quit是一个局部变量。当quit离开这个作用域时，它的析构函数会被再次的调用，这回导致一些问题。</description>
     </item>
     
     <item>
@@ -161,36 +158,9 @@ Q_PROPERTY(bool focus READ hasFocus) Q_PROPERTY(bool enabled READ isEnabled WRIT
       <guid>https://fanck13.github.io/post/hugo/</guid>
       <description>  添加文件
 hugo new [file name]   添加 theme
-cd theme git submodule add https://github.com/pacollins/hugo-future-imperfect-slim.git   启动服务 hugo server --theme=hyde --buildDrafts --watch --watch:修改自动更新
-  部署 hugo --theme=hyde --baseUrl=&amp;quot;https://fanck13.github.io/&amp;quot;
+cd theme git submodule add https://github.com/pacollins/hugo-future-imperfect-slim.git   启动服务 hugo server --theme=binario --buildDrafts --watch --watch:修改自动更新
+  部署 hugo --theme=binario --baseUrl=&amp;quot;https://fanck13.github.io/&amp;quot;
   </description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://fanck13.github.io/post/c&#43;&#43;/standard/c&#43;&#43;17/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fanck13.github.io/post/c&#43;&#43;/standard/c&#43;&#43;17/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://fanck13.github.io/post/c&#43;&#43;/standard/c&#43;&#43;20/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fanck13.github.io/post/c&#43;&#43;/standard/c&#43;&#43;20/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://fanck13.github.io/post/c&#43;&#43;/standard/c&#43;&#43;23/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fanck13.github.io/post/c&#43;&#43;/standard/c&#43;&#43;23/</guid>
-      <description>C++23 core language features  Literal Suffix for (signed ) size_t  </description>
     </item>
     
   </channel>
